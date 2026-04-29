@@ -286,6 +286,36 @@ const TrustChain = () => (
 
 const AttestationDetail = ({ onBack }) => {
   const [drawerOpen, setDrawerOpen] = React.useState(false);
+  const [exportOpen, setExportOpen] = React.useState(false);
+  const exportRef = React.useRef(null);
+
+  React.useEffect(() => {
+    if (!exportOpen) return;
+    const handler = (e) => {
+      if (exportRef.current && !exportRef.current.contains(e.target)) {
+        setExportOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [exportOpen]);
+
+  const downloadFile = (url, filename) => {
+    fetch(url)
+      .then(r => r.blob())
+      .then(blob => {
+        const objUrl = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = objUrl;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(() => URL.revokeObjectURL(objUrl), 1000);
+      });
+    setExportOpen(false);
+  };
+
   return (
     <>
       <div className="ad-page-header">
@@ -302,23 +332,31 @@ const AttestationDetail = ({ onBack }) => {
         </div>
         <div className="ad-header-actions">
           <button className="btn btn-secondary btn-sm" onClick={() => setDrawerOpen(true)}>View attestation details</button>
-          <button className="btn btn-primary btn-sm" onClick={() => {
-            fetch("assets/OPAQUE-Governance-Record.pdf")
-              .then(r => r.blob())
-              .then(blob => {
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement("a");
-                a.href = url;
-                a.download = "OPAQUE-Governance-Record.pdf";
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                setTimeout(() => URL.revokeObjectURL(url), 1000);
-              });
-          }}>
-            <Icon name="download" size={16} />
-            Export report
-          </button>
+          <div className="ad-export-wrap" ref={exportRef}>
+            <button className="btn btn-primary btn-sm" onClick={() => setExportOpen(o => !o)}>
+              <Icon name="download" size={16} />
+              Export report
+              <Icon name="expand_more" size={16} />
+            </button>
+            {exportOpen && (
+              <div className="ad-export-menu">
+                <button
+                  className="ad-export-item"
+                  onClick={() => downloadFile("assets/OPAQUE-Governance-Record.pdf", "OPAQUE-Governance-Record.pdf")}
+                >
+                  <span className="ad-export-item-fmt">PDF</span>
+                  <span className="ad-export-item-desc">Governance record</span>
+                </button>
+                <button
+                  className="ad-export-item"
+                  onClick={() => downloadFile("assets/attestation-report.json", "attestation-report.json")}
+                >
+                  <span className="ad-export-item-fmt">JSON</span>
+                  <span className="ad-export-item-desc">Raw attestation evidence</span>
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
