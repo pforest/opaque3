@@ -285,6 +285,7 @@ const TrustChain = () => (
 );
 
 const AttestationDetail = ({ onBack }) => {
+  const [drawerOpen, setDrawerOpen] = React.useState(false);
   return (
     <>
       <div className="ad-page-header">
@@ -300,7 +301,7 @@ const AttestationDetail = ({ onBack }) => {
           <span className="ad-crumb-current">hr-assist-7x4k2 — Attestation</span>
         </div>
         <div className="ad-header-actions">
-          <button className="btn btn-secondary btn-sm">View attestation details</button>
+          <button className="btn btn-secondary btn-sm" onClick={() => setDrawerOpen(true)}>View attestation details</button>
           <button className="btn btn-primary btn-sm">
             <Icon name="download" size={16} />
             Export report
@@ -321,6 +322,8 @@ const AttestationDetail = ({ onBack }) => {
           <TrustChain />
         </div>
       </div>
+
+      <WorkflowDetailsDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} />
     </>
   );
 };
