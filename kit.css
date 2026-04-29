@@ -1181,3 +1181,16 @@ table.opq-table { width: 100%; border-collapse: collapse; font-size: 14px; }
   display: inline-flex; align-items: center; gap: 4px;
   color: var(--opq-emerald-400);
 }
+
+.opq-table .link.tc-link-disabled,
+.tc-result-cell .link.tc-link-disabled,
+.tc-export-cell .link.tc-link-disabled {
+  color: var(--opq-ink-500) !important;
+  cursor: default;
+}
+.opq-table .link.tc-link-disabled:hover,
+.tc-result-cell .link.tc-link-disabled:hover,
+.tc-export-cell .link.tc-link-disabled:hover {
+  color: var(--opq-ink-500) !important;
+  text-decoration: none;
+}

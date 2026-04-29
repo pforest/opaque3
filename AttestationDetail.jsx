@@ -302,7 +302,20 @@ const AttestationDetail = ({ onBack }) => {
         </div>
         <div className="ad-header-actions">
           <button className="btn btn-secondary btn-sm" onClick={() => setDrawerOpen(true)}>View attestation details</button>
-          <button className="btn btn-primary btn-sm">
+          <button className="btn btn-primary btn-sm" onClick={() => {
+            fetch("assets/OPAQUE-Governance-Record.pdf")
+              .then(r => r.blob())
+              .then(blob => {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement("a");
+                a.href = url;
+                a.download = "OPAQUE-Governance-Record.pdf";
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                setTimeout(() => URL.revokeObjectURL(url), 1000);
+              });
+          }}>
             <Icon name="download" size={16} />
             Export report
           </button>

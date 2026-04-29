@@ -144,13 +144,15 @@ const AttestationRow = ({ row, onOpenResult }) => {
         </td>
         <td>{row.failureType}</td>
         <td className="tc-result-cell">
-          <a className="link" href="#" onClick={(e) => e.preventDefault()}>View</a>
+          <a className="link tc-link-disabled" href="#" onClick={(e) => e.preventDefault()}>View</a>
         </td>
         <td className="tc-export-cell">
-          <a className="link" href="#" onClick={(e) => e.preventDefault()}>Export</a>
+          <a className="link tc-link-disabled" href="#" onClick={(e) => e.preventDefault()}>Export</a>
         </td>
       </tr>
-      {hasChildren && open && row.children.map((c, i) => (
+      {hasChildren && open && row.children.map((c, i) => {
+        const isActive = c.name === "hr-assist-7x4k2";
+        return (
         <tr key={i} className="tc-child-row">
           <td className="tc-child-name">{c.name}</td>
           <td></td>
@@ -161,19 +163,19 @@ const AttestationRow = ({ row, onOpenResult }) => {
           <td>{c.failureType}</td>
           <td className="tc-result-cell">
             <a
-              className="link"
+              className={`link${isActive ? "" : " tc-link-disabled"}`}
               href="#"
               onClick={(e) => {
                 e.preventDefault();
-                if (c.name === "hr-assist-7x4k2" && onOpenResult) onOpenResult(c.name);
+                if (isActive && onOpenResult) onOpenResult(c.name);
               }}
             >View</a>
           </td>
           <td className="tc-export-cell">
             <a
-              className="link"
-              href={c.name === "hr-assist-7x4k2" ? "assets/OPAQUE-Governance-Record.pdf" : "#"}
-              download={c.name === "hr-assist-7x4k2" ? "OPAQUE-Governance-Record.pdf" : undefined}
+              className={`link${isActive ? "" : " tc-link-disabled"}`}
+              href={isActive ? "assets/OPAQUE-Governance-Record.pdf" : "#"}
+              download={isActive ? "OPAQUE-Governance-Record.pdf" : undefined}
               onClick={(e) => {
                 if (c.name !== "hr-assist-7x4k2") { e.preventDefault(); return; }
                 e.preventDefault();
@@ -193,7 +195,8 @@ const AttestationRow = ({ row, onOpenResult }) => {
             >Export</a>
           </td>
         </tr>
-      ))}
+        );
+      })}
     </>
   );
 };
