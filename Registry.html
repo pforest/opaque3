@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<title>Opaque — Trust Center</title>
+<title>Opaque — Registry</title>
 <link rel="stylesheet" href="colors_and_type.css" />
 <link rel="stylesheet" href="kit.css?v=8" />
 <link rel="stylesheet"
@@ -128,16 +128,17 @@ const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
 
 <script type="text/babel" src="Primitives.jsx"></script>
 <script type="text/babel" src="Nav.jsx"></script>
-<script type="text/babel" src="WorkflowDetailsDrawer.jsx"></script>
-<script type="text/babel" src="AttestationDetail.jsx"></script>
-<script type="text/babel" src="TrustCenter.jsx"></script>
+<script type="text/babel" src="Workflows.jsx"></script>
+<script type="text/babel" src="RegisterResource.jsx"></script>
+<script type="text/babel" src="BindResource.jsx"></script>
+<script type="text/babel" src="Registry.jsx"></script>
 
 <script type="text/babel">
 function App() {
   return (
     <div className="app">
-      <Nav activeRoute="trust" onNavigate={() => {}} />
-      <main className="content"><TrustCenter /></main>
+      <Nav activeRoute="registry" onNavigate={() => {}} />
+      <main className="content"><Registry /></main>
     </div>
   );
 }

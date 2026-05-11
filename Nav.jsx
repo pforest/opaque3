@@ -77,10 +77,12 @@ const Nav = ({ activeRoute, onNavigate, scoped = true }) => {
   const [collapsed, setCollapsed] = React.useState(false);
   const [workspace, setWorkspace] = React.useState("HR Internal");
   const current = WORKSPACES.find(w => w.name === workspace) || WORKSPACES[1];
-  // Per brief: when the user is on the Workspaces list surface (no active
-  // workspace scope), the picker shows "Select a workspace" and the
-  // workspace-scoped group collapses entirely.
-  const isScoped = scoped && activeRoute !== "workspaces";
+  // Per brief: when the user is on an org-level surface (Workspaces list,
+  // Registry, Trust Center, Org Settings), the picker shows "Select a
+  // workspace" and the workspace-scoped group collapses entirely. Inside
+  // these surfaces the user has no active workspace context.
+  const ORG_SURFACES = ["workspaces", "registry", "trust", "org-settings"];
+  const isScoped = scoped && !ORG_SURFACES.includes(activeRoute);
 
   const userRef = React.useRef(null);
   React.useEffect(() => {
@@ -102,7 +104,7 @@ const Nav = ({ activeRoute, onNavigate, scoped = true }) => {
     { key: "resources",   icon: "grid_view",     label: "Resources",          route: "resources",    href: "Resources.html",         scope: "ws" },
     { key: "ws-settings", icon: "tune",          label: "Workspace Settings", route: "ws-settings",  href: "WorkspaceSettings.html", scope: "ws" },
     { key: "workspaces",  icon: "workspaces",    label: "Workspaces",         route: "workspaces",   href: "Workspaces.html",        scope: "org" },
-    { key: "registry",    icon: "storage",       label: "Registry",           route: "registry",     href: "#",                      scope: "org" },
+    { key: "registry",    icon: "storage",       label: "Registry",           route: "registry",     href: "Registry.html",          scope: "org" },
     { key: "trust",       icon: "verified_user", label: "Trust Center",       route: "trust",        href: "TrustCenter.html",       scope: "org" },
     { key: "org-settings",icon: "settings",      label: "Org Settings",       route: "org-settings", href: "#",                      scope: "org" },
   ];

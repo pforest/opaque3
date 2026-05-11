@@ -151,6 +151,7 @@ const AttestationRow = ({ row, onOpenResult }) => {
         </td>
       </tr>
       {hasChildren && open && row.children.map((c, i) => {
+        const openable = c.name === "hr-assist-7x4k2" || c.name === "hr-assist-9m2p1";
         const isActive = c.name === "hr-assist-7x4k2";
         return (
         <tr key={i} className="tc-child-row">
@@ -163,11 +164,11 @@ const AttestationRow = ({ row, onOpenResult }) => {
           <td>{c.failureType}</td>
           <td className="tc-result-cell">
             <a
-              className={`link${isActive ? "" : " tc-link-disabled"}`}
+              className={`link${openable ? "" : " tc-link-disabled"}`}
               href="#"
               onClick={(e) => {
                 e.preventDefault();
-                if (isActive && onOpenResult) onOpenResult(c.name);
+                if (openable && onOpenResult) onOpenResult(c.name);
               }}
             >View</a>
           </td>
